@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "reset": "rm data/db.sql && rm -rf node_modules/"
+    "reset": "rm data/db.sql && rm -rf node_modules/",
+    "init": "node init_database.js"
   },
   "author": "",
   "license": "WFTPL",

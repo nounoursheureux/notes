@@ -6,7 +6,6 @@ var engine = {};
 engine.init = function(database)
 {
     db = new sqlite3.Database(database);
-    db.run("CREATE TABLE IF NOT EXISTS notes(id INTEGER PRIMARY KEY,title VARCHAR(40),content VARCHAR(500),owner VARCHAR(20),private INTEGER)");
     return engine;
 };
 

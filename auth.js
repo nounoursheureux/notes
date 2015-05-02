@@ -8,7 +8,6 @@ var auth = {};
 auth.init = function(database,salt)
 {
     db = new sqlite3.Database(database);
-    db.run("CREATE TABLE IF NOT EXISTS users(username VARCHAR(20) UNIQUE,password CHAR(128),email VARCHAR(50))");
     salt = salt || ':h4cK3rW4r';
     return auth;
 };
