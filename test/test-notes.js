@@ -47,7 +47,7 @@ describe('Engine',function(){
     it('should create a new note',function(){
         return engine.createNote('title','content','testuser',true).should.eventually.equal('title');
     });
-    var note = {title:'title',content:'content',owner:'testuser',id:1,private:1};
+    var note = {title:'title',content:'content',owner:'testuser',id:1,private:true};
     it('should list all the notes',function(){
         return engine.listNotes('testuser').should.eventually.eql([note]);
     });
@@ -60,7 +60,7 @@ describe('Engine',function(){
     it("should return an error because the note doesn't exists",function(){
         return engine.getNote('testuser',2).should.be.rejectedWith("The note doesn't exist");
     });
-    var newnote = {title: 'anothertitle',content:'anothercontent',owner:'testuser',id:1,private:1};
+    var newnote = {title: 'anothertitle',content:'anothercontent',owner:'testuser',id:1,private:true};
     it('should update the note',function(){
         engine.updateNote('testuser',1,newnote).then(function(){
             return engine.getNote('testuser',1).should.eventually.eql("lolilol");
@@ -80,33 +80,40 @@ describe('API',function(){
     app.use(bodyparser.json());
     app.listen(5555);
     var routes;
+    var user = {
+        username: 'apiuser',
+        password: 'apipassword',
+        email: 'apiemail'
+    };
+    var options = {
+        json: true,
+        method: 'POST',
+        uri: 'http://localhost:5555/auth',
+        body: user
+    };
     it('should register me',function(){
         routes = require('../routes')(app,auth,engine);
-        var user = {
-            username: 'apiuser',
-            password: 'apipassword',
-            email: 'apiemail'
-        };
-        var options = {
-            json: true,
-            method: 'POST',
-            uri: 'http://localhost:5555/auth',
-            body: user
-        };
         return request(options).should.eventually.equal('Success');
     });
     it('should return an error because the user already exists',function(){
-        var user = {
-            username: 'apiuser',
-            password: 'apipassword',
-            email: 'apiemail'
-        };
-        var options = {
-            json: true,
-            method: 'POST',
-            uri: 'http://localhost:5555/auth',
-            body: user
-        };
         return request(options).should.eventually.eql({error: 'The user already exists'});
+    });
+    var note = {
+        title: 'testtitle',
+        content: 'yolocontent',
+        private: false
+    };
+    it('should create a new note',function(){
+        options.uri = 'http://localhost:5555/';
+        options.body = note;
+        options.auth = {
+            user: user.username,
+            pass: user.password
+        };
+        return request(options).should.eventually.equal("Successfully created note: " + options.body.title);
+    });
+    it('should return all the notes',function(){
+        options.method = 'GET';
+        return request(options).should.eventually.eql([{title: 'testtitle',content:'yolocontent',private:false,id:1,owner:user.username}]);
     });
 });

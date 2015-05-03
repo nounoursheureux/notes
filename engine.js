@@ -29,7 +29,12 @@ engine.listNotes = function(username)
     return new Promise(function(resolve,reject){
         db.all("SELECT * FROM notes WHERE owner='" + username + "';",function(err,data){
             if(err) throw err;
-            else resolve(data);
+            else {
+                data.forEach(function(note){
+                    note.private = note.private ? true : false;
+                });
+                resolve(data);
+            }
         });
     });
 };
@@ -43,7 +48,11 @@ engine.getNote = function(username,id)
             else
             {
                 if(data.private && username != data.owner) reject('Access not granted');
-                else resolve(data);
+                else
+                {
+                    data.private = data.private ? true : false;
+                    resolve(data);
+                }
             }
         });
     });
