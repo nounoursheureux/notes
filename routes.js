@@ -1,7 +1,7 @@
 var basicAuth = require('basic-auth');
 
-module.exports = function(app,database) {
-    var api = require('./api').init(database);
+module.exports = function(app,auth,engine) {
+    var api = require('./api').init(auth,engine);
     app.route('/')
         .get(api.list)
         .post(api.new);

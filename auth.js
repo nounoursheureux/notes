@@ -7,9 +7,14 @@ var auth = {};
 
 auth.init = function(database,salt)
 {
-    db = new sqlite3.Database(database);
-    salt = salt || ':h4cK3rW4r';
-    return auth;
+    return new Promise(function(resolve,reject){
+        db = new sqlite3.Database(database);
+        salt = salt || ':h4cK3rW4r';
+        db.run("CREATE TABLE IF NOT EXISTS users(username VARCHAR(20) UNIQUE,password CHAR(128),email VARCHAR(50))",function(error){
+            if(error) reject(error);
+            else resolve(auth);
+        });
+    });
 };
 
 auth.register = function(username,password,email)
