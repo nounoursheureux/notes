@@ -3,11 +3,8 @@ var chai = require('chai'),
     expect = chai.expect(),
     chaiAsPromised = require('chai-as-promised'),
     fs = require('fs'),
-    express = require('express'),
-    app = express(),
-    bodyparser = require('body-parser'),
     request = require('request-promise'),
-    auth,engine;
+    notes = require('../');
 
 chai.use(chaiAsPromised);
 
@@ -16,9 +13,7 @@ after('Removing the test database',function(){
 });
 
 before('Creating the test database',function(){
-    var authPromise = require('../auth').init('test/data.sql');
-    var enginePromise = require('../engine').init('test/data.sql');
-    return Promise.all([authPromise,enginePromise]).then(function(values){
+    return notes.startServer(5555,'test/data.sql').then(function(values){
         auth = values[0];
         engine = values[1];
     },function(error){
@@ -77,9 +72,6 @@ describe('Engine',function(){
     });
 });
 describe('API',function(){
-    app.use(bodyparser.json());
-    app.listen(5555);
-    var routes;
     var user = {
         username: 'apiuser',
         password: 'apipassword',
@@ -92,7 +84,6 @@ describe('API',function(){
         body: user
     };
     it('should register me',function(){
-        routes = require('../routes')(app,auth,engine);
         return request(options).should.eventually.equal('Success');
     });
     it('should return an error because the user already exists',function(){

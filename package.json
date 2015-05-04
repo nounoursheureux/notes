@@ -1,7 +1,7 @@
 {
   "name": "notes",
   "version": "0.0.1",
-  "description": "",
+  "description": "A REST API for creating and updating notes.",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
@@ -10,6 +10,7 @@
   },
   "author": "",
   "license": "WFTPL",
+  "main": "lib/notes.js",
   "dependencies": {
     "express": "^4.12.3",
     "sqlite3": "latest",
