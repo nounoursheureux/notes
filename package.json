@@ -1,5 +1,5 @@
 {
-  "name": "notes",
+  "name": "notes-api",
   "version": "0.0.1",
   "description": "A REST API for creating and updating notes.",
   "main": "index.js",
@@ -8,7 +8,8 @@
     "reset": "rm data/db.sql && rm -rf node_modules/",
     "init": "node init_database.js"
   },
-  "author": "",
+  "keywords": ["api","notes"],
+  "author": "Nounours Heureux <schtroumps31@gmail.com>",
   "license": "WFTPL",
   "main": "lib/notes.js",
   "dependencies": {
@@ -17,6 +18,8 @@
     "basic-auth": "latest",
     "body-parser": "latest"
   },
+  "repository": "nounoursheureux/notes-api",
+  "bugs": "https://github.com/nounoursheureux/notes-api/issues",
   "devDependencies": {
     "chai": "^2.3.0",
     "chai-as-promised": "^5.0.0",
