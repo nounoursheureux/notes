@@ -14,7 +14,7 @@ after('Removing the test database',function(){
 });
 
 before('Creating the test database',function(){
-    return notes.startServer(5555,'./test/data.json','./test/users.json').then(function(values){
+    return notes.startServer(5555,'test/data.json','test/users.json').then(function(values){
         auth = values[0];
         engine = values[1];
     },function(error){
