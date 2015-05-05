@@ -9,12 +9,12 @@ var chai = require('chai'),
 chai.use(chaiAsPromised);
 
 after('Removing the test database',function(){
-    fs.unlink('test/data.sql');
+    fs.unlink('test/data.json');
     fs.unlink('test/users.json');
 });
 
 before('Creating the test database',function(){
-    return notes.startServer(5555,'../test/data.sql','../test/users.json').then(function(values){
+    return notes.startServer(5555,'test/data.json','test/users.json').then(function(values){
         auth = values[0];
         engine = values[1];
     },function(error){
