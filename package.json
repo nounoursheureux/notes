@@ -1,6 +1,6 @@
 {
   "name": "notes-api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A REST API for creating and updating notes.",
   "main": "index.js",
   "scripts": {

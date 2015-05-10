@@ -4,6 +4,8 @@ var chai = require('chai'),
     chaiAsPromised = require('chai-as-promised'),
     fs = require('fs'),
     request = require('request-promise'),
+    express = require('express'),
+    app = express(),
     notes = require('../');
 
 chai.use(chaiAsPromised);
@@ -14,9 +16,10 @@ after('Removing the test database',function(){
 });
 
 before('Creating the test database',function(){
-    return notes.startServer(5555,'test/data.json','test/users.json').then(function(values){
-        auth = values[0];
-        engine = values[1];
+    return notes.configureServer(app,'test/data.json','test/users.json').then(function(values){
+        auth = values.auth;
+        engine = values.engine;
+        app.listen(5555);
     },function(error){
         throw error;
     });
